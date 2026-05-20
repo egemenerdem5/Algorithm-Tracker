@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Algorithm Tracker</h1>
+        
+        <div class="form-section">
+            <input type="text" id="title" placeholder="Problem Adı (örn: Valid Parentheses)">
+            <input type="text" id="difficulty" placeholder="Zorluk (Easy, Medium, Hard)">
+            <input type="text" id="topic" placeholder="Konu (Stack, Array, Sliding Window...)">
+            <textarea id="code" placeholder="Çözüm Kodun..."></textarea>
+            <button onclick="addProblem()">Kaydet</button>
+        </div>
+
+        <div id="problems-list"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

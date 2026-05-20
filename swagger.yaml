@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: Algorithm Tracker API
+  version: 1.0.0
+  description: Çözülen LeetCode algoritmalarını takip etmek için RESTful API dokümantasyonu.
+servers:
+  - url: http://localhost:8000
+paths:
+  /api/problems:
+    get:
+      summary: Tüm problemleri listele
+      responses:
+        '200':
+          description: Başarılı
+    post:
+      summary: Yeni problem ekle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                code:
+                  type: string
+                difficulty:
+                  type: string
+                topic:
+                  type: string
+      responses:
+        '201':
+          description: Başarıyla eklendi
+  /api/problems/{id}:
+    put:
+      summary: Problemi güncelle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarıyla güncellendi
+    delete:
+      summary: Problemi sil
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Başarıyla silindi
