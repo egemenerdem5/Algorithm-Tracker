@@ -1,4 +1,4 @@
-#  System Design Project: Algorithm Tracker 🚀
+# Algorithm Tracker 🚀
 
 A full-stack Single Page Application (SPA) designed to track, organize, and manage solved coding algorithms and LeetCode problems. 
 
@@ -30,23 +30,21 @@ Before running the project, make sure you have [Node.js](https://nodejs.org/) in
 1. Clone the repository and install the dependencies:
    ```bash
    npm install
+   ```
+
 2. Start the development server (runs with Nodemon):
-   npm run dev
-3.Open your browser and navigate to:
-
-App Interface (Frontend): http://localhost:8000
-
-Swagger API Docs: http://localhost:8000/api-docs
-4.To run the automated unit tests:
-   npm run test
-
-   
-
-
-
-   
-
-
-   
    ```bash
-   npm install
+   npm run dev
+   ```
+
+3. Open your browser and navigate to:
+   - **App Interface (Frontend):** [http://localhost:8000](http://localhost:8000)
+   - **Swagger API Docs:** [http://localhost:8000/api-docs](http://localhost:8000/api-docs)
+
+4. To run the automated unit tests:
+   ```bash
+   npm run test
+   ```
+
+---
+**Author:** Egemen Erdem
