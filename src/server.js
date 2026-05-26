@@ -1,31 +1,22 @@
-import express from "express";
-import dotenv from "dotenv";
-import { connectDB } from "./config/db.js";
-import problemRoutes from "./routes/problem.route.js"; // Rotaları import ettik
-import swaggerUi from "swagger-ui-express";
-import YAML from "yamljs";
-
-dotenv.config();
+import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import yaml from 'yamljs';
+import problemRoutes from './routes/problem.route.js';
+import { connectDB } from './config/db.js';
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
+const swaggerDocument = yaml.load('./swagger.yaml');
 
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.static('public'));
 
-// Rotaları sisteme dahil ediyoruz
-app.use("/api/problems", problemRoutes);
-
-// Swagger Dokümantasyonu Kurulumu
-const swaggerDocument = YAML.load('./swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/problems', problemRoutes);
 
-connectDB()
-.then(() => {
-    app.listen(PORT, () => {
-        console.log(`🚀 Sunucu ${PORT} portunda tıkır tıkır çalışıyor!`);
-    });
-})
-.catch((err) => {
-    console.log("Sunucu başlatılamadı!", err);
+connectDB();
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server is successfully running on port ${PORT}!`);
+    console.log(`📄 Swagger API documentation available at http://localhost:${PORT}/api-docs`);
 });

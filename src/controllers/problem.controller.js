@@ -1,58 +1,59 @@
-import { getDB } from '../config/db.js';
+import { db } from '../config/db.js';
 
-// 1. CREATE (Yeni problem ekleme)
-export const createProblem = async (req, res) => {
+export const getProblems = async (req, res) => {
     try {
-        const { title, code, difficulty, topic } = req.body;
-        if (!title) return res.status(400).json({ error: "Başlık zorunludur!" });
+        const problems = await db.all('SELECT * FROM problems ORDER BY createdAt DESC');
+        res.status(200).json(problems);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error while fetching problems.' });
+    }
+};
 
-        const db = getDB();
+export const createProblem = async (req, res) => {
+    const { title, code, difficulty, topic } = req.body;
+    if (!title) {
+        return res.status(400).json({ error: 'Title field is required!' });
+    }
+    try {
         const result = await db.run(
             'INSERT INTO problems (title, code, difficulty, topic) VALUES (?, ?, ?, ?)',
             [title, code, difficulty, topic]
         );
-        res.status(201).json({ id: result.lastID, title, difficulty, message: "Başarıyla eklendi!" });
+        res.status(201).json({ id: result.lastID, title, code, difficulty, topic });
     } catch (error) {
-        res.status(500).json({ error: "Ekleme sırasında hata oluştu." });
+        res.status(500).json({ error: 'Internal server error while creating problem.' });
     }
 };
 
-// 2. READ (Problemleri listeleme)
-export const getProblems = async (req, res) => {
-    try {
-        const db = getDB();
-        const problems = await db.all('SELECT * FROM problems');
-        res.status(200).json(problems);
-    } catch (error) {
-        res.status(500).json({ error: "Veriler getirilemedi." });
-    }
-};
-
-// 3. UPDATE (Problemi güncelleme)
 export const updateProblem = async (req, res) => {
+    const { id } = req.params;
+    const { title, code, difficulty, topic } = req.body;
+    if (!title) {
+        return res.status(400).json({ error: 'Title field is required!' });
+    }
     try {
-        const { id } = req.params;
-        const { title, code, difficulty, topic } = req.body;
-        
-        const db = getDB();
-        await db.run(
+        const result = await db.run(
             'UPDATE problems SET title = ?, code = ?, difficulty = ?, topic = ? WHERE id = ?',
             [title, code, difficulty, topic, id]
         );
-        res.status(200).json({ message: "Problem başarıyla güncellendi!" });
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'Problem not found.' });
+        }
+        res.status(200).json({ id, title, code, difficulty, topic });
     } catch (error) {
-        res.status(500).json({ error: "Güncelleme hatası." });
+        res.status(500).json({ error: 'Internal server error while updating problem.' });
     }
 };
 
-// 4. DELETE (Problemi silme)
 export const deleteProblem = async (req, res) => {
+    const { id } = req.params;
     try {
-        const { id } = req.params;
-        const db = getDB();
-        await db.run('DELETE FROM problems WHERE id = ?', [id]);
-        res.status(200).json({ message: "Problem silindi!" });
+        const result = await db.run('DELETE FROM problems WHERE id = ?', [id]);
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'Problem not found.' });
+        }
+        res.status(204).send();
     } catch (error) {
-        res.status(500).json({ error: "Silme hatası." });
+        res.status(500).json({ error: 'Internal server error while deleting problem.' });
     }
 };
