@@ -1,11 +1,13 @@
 import express from 'express';
-import { createProblem, getProblems, updateProblem, deleteProblem } from '../controllers/problem.controller.js';
+import { getProblems, createProblem, updateProblem, deleteProblem, crawlProblem } from '../controllers/problem.controller.js';
+import { verifyToken } from '../middleware/auth.middleware.js'; 
 
 const router = express.Router();
 
-router.post('/', createProblem);
-router.get('/', getProblems);
-router.put('/:id', updateProblem);
-router.delete('/:id', deleteProblem);
+router.get('/', verifyToken, getProblems);
+router.post('/', verifyToken, createProblem);
+router.put('/:id', verifyToken, updateProblem);
+router.delete('/:id', verifyToken, deleteProblem);
+router.post('/crawl', verifyToken, crawlProblem);
 
 export default router;

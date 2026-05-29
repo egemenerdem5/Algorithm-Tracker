@@ -5,21 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algorithm Tracker</title>
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 Algorithm Tracker</h1>
+    
+    <div id="authScreen" class="container auth-container">
+        <h1 class="brand-title">Algorithm Tracker</h1>
+        <h2 id="authTitle" style="text-align: center; margin-top: 0; margin-bottom: 8px; color: var(--text-main); font-weight: 600;">Welcome Back</h2>
+        <p id="authSubtitle" class="text-muted">Please log in to your algorithm vault.</p>
         
-        <div class="form-section">
-            <input type="text" id="title" placeholder="Problem Adı (örn: Valid Parentheses)">
-            <input type="text" id="difficulty" placeholder="Zorluk (Easy, Medium, Hard)">
-            <input type="text" id="topic" placeholder="Konu (Stack, Array, Sliding Window...)">
-            <textarea id="code" placeholder="Çözüm Kodun..."></textarea>
-            <button onclick="addProblem()">Kaydet</button>
+        <form id="authForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" id="authSubmitBtn" class="btn-primary auth-btn">Login</button>
+        </form>
+        
+        <p id="authError" class="error-msg"></p>
+        
+        <div class="toggle-auth-wrapper">
+            <button id="toggleAuthBtn" class="btn-action toggle-btn">Need an account? Register here</button>
+        </div>
+    </div>
+
+    <main id="appScreen" class="container" style="display: none;">
+        <div class="header-wrapper">
+            <h1>Algorithm Tracker</h1>
+            <button id="btnLogout" class="btn-action btn-delete">Logout</button>
+        </div>
+        
+        <div class="input-group crawl-box">
+            <label for="crawlUrl" class="crawl-label">🤖 Auto-Fill from LeetCode (Crawler)</label>
+            <div class="crawl-input-wrapper">
+                <input type="url" id="crawlUrl" placeholder="Paste LeetCode URL here...">
+                <button type="button" id="btnCrawl" class="btn-primary fetch-btn">Fetch</button>
+            </div>
+            <small id="crawlStatus" class="crawl-status"></small>
         </div>
 
-        <div id="problems-list"></div>
-    </div>
+        <form id="problemForm">
+            <div class="input-group">
+                <label for="title">Problem Title</label>
+                <input type="text" id="title" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="topic">Topic</label>
+                <input type="text" id="topic">
+            </div>
+            
+            <div class="input-group">
+                <label for="difficulty">Difficulty</label>
+                <select id="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="code">Solution Code</label>
+                <textarea id="code" rows="6"></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary">Save Problem</button>
+        </form>
+
+        <hr>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Topic</th>
+                    <th>Difficulty</th>
+                    <th>Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="problemsTableBody">
+            </tbody>
+        </table>
+
+        <dialog id="codeModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle">Solution Code</h3>
+                <pre><code id="modalCodeContent"></code></pre>
+                <div class="modal-actions">
+                    <button id="closeModal" class="btn-primary close-btn">Close</button>
+                </div>
+            </div>
+        </dialog>
+    </main>
+
     <script src="app.js"></script>
 </body>
 </html>

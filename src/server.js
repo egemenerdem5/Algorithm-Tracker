@@ -2,6 +2,7 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'yamljs';
 import problemRoutes from './routes/problem.route.js';
+import authRoutes from './routes/auth.route.js'; 
 import { connectDB } from './config/db.js';
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.static('public'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/problems', problemRoutes);
+app.use('/api/auth', authRoutes); 
 
 connectDB();
 
