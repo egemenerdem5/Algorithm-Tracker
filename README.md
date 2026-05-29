@@ -3,6 +3,7 @@
 A full-stack Single Page Application (SPA) designed to track, organize, and manage solved coding algorithms and LeetCode problems. 
 
 ## Features
+- 🔐 **Authentication System:** Secure multi-tenant user login and registration powered by JSON Web Tokens (JWT).
 - 📝 **Full CRUD Operations:** Create, read, update, and delete algorithm records.
 - 📄 **Interactive API Docs:** Swagger UI integration available at `/api-docs`.
 - ⚡ **RESTful API Architecture:** Clean routing built with Node.js and Express.js.
@@ -11,7 +12,7 @@ A full-stack Single Page Application (SPA) designed to track, organize, and mana
 
 ## Tech Stack
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript (Fetch API)
-- **Backend:** Node.js, Express.js
+- **Backend:** Node.js, Express.js, JWT (jsonwebtoken) 
 - **Database:** SQLite
 - **Tools:** Swagger UI, Jest, Nodemon
 
